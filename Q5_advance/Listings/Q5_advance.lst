@@ -1,0 +1,79 @@
+A51 MACRO ASSEMBLER  Q5_ADVANCE                                                           11/07/2021 14:09:00 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Q5_advance.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Q5_advance.a51 SET(SMALL) DEBUG PRINT(.\Listings\Q5_advance.lst) OBJECT
+                      (.\Objects\Q5_advance.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                             ORG 0000H
+0000 802E              2                             JMP START
+0030                   3                             ORG 0030H
+0030 74FC              4     START:          MOV A, #11111100B               ; initial values
+0032 853081            5                             MOV SP, 30H
+0035 D290              6                             SETB P1.0
+0037 D291              7                             SETB P1.1
+0039 A800              8                             MOV R0, 0                               ; PUSH counter
+003B AB00              9                             MOV R3, 0                               ; push-pull judgement
+003D F5A0             10     LOOP:           MOV P2, A                               ; make LED shine in loop
+003F 1147             11                             CALL DELAY
+0041 BB0022           12                             CJNE R3, #0, PUSHING    ; if R3 not 0, jump to PUSHING
+0044 23               13                             RL A
+0045 80F6             14                             JMP LOOP
+                      15     
+0047 7D04             16     DELAY:          MOV R5, #4
+0049 7EFA             17     DELAY1:         MOV R6, #250
+004B 7FFA             18     DELAY2:         MOV R7, #250
+004D 30900A           19     RET_PUSH:       JNB P1.0, INIT_PUSH
+0050 30910D           20     RET_POP:        JNB P1.1, INIT_POP
+0053 DFF8             21                             DJNZ R7, RET_PUSH
+0055 DEF4             22                             DJNZ R6, DELAY2
+0057 DDF0             23                             DJNZ R5, DELAY1
+0059 22               24                             RET
+                      25     
+005A 7B01             26     INIT_PUSH:      MOV R3, #1
+005C D290             27                             SETB P1.0
+005E 80ED             28                             JMP RET_PUSH
+0060 7B02             29     INIT_POP:       MOV R3, #2
+0062 D291             30                             SETB P1.1
+0064 80EA             31                             JMP RET_POP
+                      32                             
+0066 BB0105           33     PUSHING:        CJNE R3, #1, POPPING
+0069 C0A0             34                             PUSH 00A0H
+006B 08               35                             INC R0
+006C 80CF             36                             JMP LOOP
+                      37                             
+006E D0A0             38     POPPING:        POP 00A0H
+0070 D8FC             39                             DJNZ R0, POPPING
+                      40                             END
+                                                     
+A51 MACRO ASSEMBLER  Q5_ADVANCE                                                           11/07/2021 14:09:00 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0047H   A   
+DELAY1 . . . . . .  C ADDR   0049H   A   
+DELAY2 . . . . . .  C ADDR   004BH   A   
+INIT_POP . . . . .  C ADDR   0060H   A   
+INIT_PUSH. . . . .  C ADDR   005AH   A   
+LOOP . . . . . . .  C ADDR   003DH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+POPPING. . . . . .  C ADDR   006EH   A   
+PUSHING. . . . . .  C ADDR   0066H   A   
+RET_POP. . . . . .  C ADDR   0050H   A   
+RET_PUSH . . . . .  C ADDR   004DH   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0030H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

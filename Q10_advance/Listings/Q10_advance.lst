@@ -1,0 +1,81 @@
+C51 COMPILER V9.60.0.0   Q10_ADVANCE                                                       12/20/2021 00:06:42 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE Q10_ADVANCE
+OBJECT MODULE PLACED IN .\Objects\Q10_advance.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Q10_advance.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listin
+                    -gs\Q10_advance.lst) TABS(2) OBJECT(.\Objects\Q10_advance.obj)
+
+line level    source
+
+   1          #include <regx51.h>
+   2          
+   3          void print_msg(char *);
+   4          void print_create(int, int);
+   5          void write(char, int);
+   6          void delay(unsigned int);
+   7          void create_self_def(int, int[]);
+   8          
+   9          int smile[8] = {0x00, 0x0A, 0x0A, 0x00, 0x11, 0x0E, 0x00, 0x00};
+  10          
+  11          void main() {
+  12   1        write(0x38, 0);
+  13   1        write(0x0F, 0);
+  14   1        write(0x05, 0);
+  15   1        write(0x01, 0);
+  16   1        write(0x80, 0);
+  17   1        print_msg("E94086076");
+  18   1        
+  19   1        create_self_def(0x40, smile);
+  20   1        print_create(0xCF, 0x00);
+  21   1        
+  22   1        while (1);
+  23   1      }
+  24          
+  25          void print_msg(char *msg) {
+  26   1          for (;*msg != '\0'; msg++)
+  27   1            write(*msg, 1);
+  28   1      }
+  29          
+  30          void print_create(int location, int msg_address) {
+  31   1        while(1) {
+  32   2          write(location, 0); write(msg_address, 1);
+  33   2          delay(8000);
+  34   2        }
+  35   1      }
+  36          
+  37          void create_self_def(int address, int message[]) {
+  38   1        int i;
+  39   1        write(address, 0);
+  40   1        for (i = 0; i < 8; i++)
+  41   1          write(message[i], 1);
+  42   1      }
+  43          
+  44          void write(char cmd, int rs_value) {
+  45   1        P1 = cmd;
+  46   1        P3_0 = rs_value;
+  47   1        P3_1 = 1;
+  48   1        delay(100);
+  49   1        P3_1 = 0;
+  50   1      }
+  51          
+  52          void delay(unsigned int i) {
+  53   1        while (i--);
+  54   1      }
+C51 COMPILER V9.60.0.0   Q10_ADVANCE                                                       12/20/2021 00:06:42 PAGE 2   
+
+  55          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    240    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

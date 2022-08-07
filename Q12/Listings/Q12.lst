@@ -1,0 +1,39 @@
+C51 COMPILER V9.60.0.0   Q12                                                               12/26/2021 22:20:02 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE Q12
+OBJECT MODULE PLACED IN .\Objects\Q12.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Q12.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Q12.l
+                    -st) TABS(2) OBJECT(.\Objects\Q12.obj)
+
+line level    source
+
+   1          #include<regx51.h>
+   2          void delay(unsigned int);
+   3          
+   4          void main() {
+   5   1        while(1) {
+   6   2          P2_0 = 0;
+   7   2          delay(50000);
+   8   2          P2_0 = 1;
+   9   2          delay(50000);
+  10   2        }
+  11   1      }
+  12          
+  13          void delay(unsigned int t) {
+  14   1        while(t--);
+  15   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     31    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

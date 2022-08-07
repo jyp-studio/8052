@@ -1,0 +1,148 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    11/30/2021  14:19:43  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\Q8.obj TO .\Objects\Q8 PRINT (.\Listings\Q8.m51) RAMSIZE (2
+>> 56)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\Q8.obj (Q8)
+
+
+LINK MAP OF MODULE:  .\Objects\Q8 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?Q8
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
+            CODE    0800H     0020H     UNIT         ?PR?UART_ISR?Q8
+            CODE    0820H     000FH     UNIT         ?PR?INIT_UART?Q8
+            CODE    082FH     000CH     UNIT         ?C_C51STARTUP
+            CODE    083BH     0005H     UNIT         ?PR?MAIN?Q8
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Q8 (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?Q8
+
+?PR?MAIN?Q8
+  +--> ?PR?INIT_UART?Q8
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Q8 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:082FH         SEGMENT       ?C_C51STARTUP
+  I:0009H         SEGMENT       ?STACK
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/30/2021  14:19:43  PAGE 2
+
+
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0832H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:082FH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:082FH         LINE#         133
+  C:0831H         LINE#         134
+  C:0832H         LINE#         135
+  C:0833H         LINE#         136
+  C:0835H         LINE#         185
+  C:0838H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        Q8
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  D:00A8H         PUBLIC        IE
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  D:0008H         PUBLIC        recivevalue
+  C:083BH         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  C:0800H         PUBLIC        UART_Isr
+  D:008DH         PUBLIC        TH1
+  C:0820H         PUBLIC        init_uart
+  B:0088H.6       PUBLIC        TR1
+  -------         PROC          MAIN
+  C:083BH         LINE#         6
+  C:083BH         LINE#         7
+  C:083EH         LINE#         8
+  -------         ENDPROC       MAIN
+  -------         PROC          INIT_UART
+  C:0820H         LINE#         11
+  C:0820H         LINE#         12
+  C:0823H         LINE#         13
+  C:0826H         LINE#         14
+  C:0829H         LINE#         15
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/30/2021  14:19:43  PAGE 3
+
+
+  C:082BH         LINE#         16
+  C:082EH         LINE#         17
+  -------         ENDPROC       INIT_UART
+  -------         PROC          UART_ISR
+  C:0800H         LINE#         19
+  C:0804H         LINE#         20
+  C:0807H         LINE#         22
+  C:0809H         LINE#         23
+  C:080CH         LINE#         24
+  C:080FH         LINE#         26
+  C:0814H         LINE#         27
+  C:0816H         LINE#         28
+  C:0819H         LINE#         29
+  C:081BH         LINE#         30
+  C:081BH         LINE#         31
+  -------         ENDPROC       UART_ISR
+  -------         ENDMOD        Q8
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0046H BYTE ( 3%) *
+******************************************************************************
+
+Program Size: data=10.0 xdata=0 code=70
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

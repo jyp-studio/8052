@@ -1,0 +1,68 @@
+A51 MACRO ASSEMBLER  Q5                                                                   11/07/2021 11:20:21 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Q5.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Q5.A51 SET(SMALL) DEBUG PRINT(.\Listings\Q5.lst) OBJECT(.\Objects\Q5.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+                       5     
+                       6     
+                       7     
+                       8     
+0000                   9                             ORG 0000h
+0000 802E             10                             JMP LOOP                        ;jump into loop
+0030                  11                             ORG 0030h
+0030 758132           12     LOOP:           MOV SP, #32h            ;SP = #32H
+0033 74FE             13                             MOV A, #0xfe            ;A = #0xfe 1111 1110
+0035 F5A0             14                             MOV P2, A                       ;P2 = A
+0037 D290             15                             SETB P1.0                       ;set p1.0 to high
+0039 7808             16                             MOV R0, #8d             ;set the execution times of marquee
+003B 309002           17                             JNB P1.0, MARQUEE       ;jump into marquee when p1.0 is low
+003E 80F0             18                             JMP LOOP                        ;infinite loop
+0040 C000             19     MARQUEE:        PUSH 00h                        ;push the value of R0 into stack
+0042 78FA             20                             MOV R0, #250d           ;set the execution times of DELAY1
+0044 114F             21                             CALL DELAY1             ;call DELAY1
+0046 D000             22                             POP 00h                         ;pop out the value of R0 which is p
+                             ushed in line15
+0048 23               23                             RL A                            ;left rotate
+0049 F5A0             24                             MOV P2, A                       ;set the value of A into P2
+004B D8F3             25                             DJNZ R0, MARQUEE        ;loop back until MARQUEE execute 8 times
+004D 80E1             26                             JMP LOOP                        ;end of MARQUEE, back to LOOP
+004F C000             27     DELAY1:         PUSH 00h                        ;push the remain times of DELAY1 into stack
+0051 78FA             28                             MOV R0, #250d           ;set the execution times of DELAY2
+0053 115A             29                             CALL DELAY2             ;call DELAY2
+0055 D000             30                             POP 00h                         ;pop the remain times of DELAY1 bac
+                             k to R0
+0057 D8F6             31                             DJNZ R0, DELAY1         ;loop until R0 is 0
+0059 22               32                             RET                             ;return to MARQUEE
+005A D8FE             33     DELAY2:         DJNZ R0, DELAY2         ;loop untie R0 is 0
+005C 22               34                             RET                             ;return to DELAY1
+                      35                             END
+A51 MACRO ASSEMBLER  Q5                                                                   11/07/2021 11:20:21 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY1 . . . . . .  C ADDR   004FH   A   
+DELAY2 . . . . . .  C ADDR   005AH   A   
+LOOP . . . . . . .  C ADDR   0030H   A   
+MARQUEE. . . . . .  C ADDR   0040H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

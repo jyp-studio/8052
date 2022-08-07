@@ -1,0 +1,267 @@
+C51 COMPILER V9.60.0.0   TEST1                                                             01/04/2022 17:38:48 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TEST1
+OBJECT MODULE PLACED IN .\Objects\Test1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Test1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Tes
+                    -t1.lst) TABS(2) OBJECT(.\Objects\Test1.obj)
+
+line level    source
+
+   1          #include<regx51.h>
+   2          
+   3          void delay(unsigned int);
+   4          void print_msg(char *);
+   5          void write(char, int);
+   6          void init(); 
+   7          void timer0_interrupt();
+   8          void send_msg(char *);
+   9          int check(char *);
+  10          void int_0();
+  11          void int_1();
+  12          void create_self_def(int, int[]);
+  13          void print_create(int, int);
+  14          
+  15          
+  16          //UART vairables
+  17          bit receive_full = 1;
+  18          bit transmit_flag = 1;
+  19          char index = 0;
+  20          char rxbuf[9];
+  21          code char *start = "E94086076";
+  22          code char *LCD_start = "\r\nLCD on\r\n";
+  23          code char *close = "ShutdownN";
+  24          code char *LCD_close = "\r\nLCD off\r\n";
+  25          code char *level_0 = "bright000";
+  26          code char *LCD_lv0 = "\r\nscreen brightness dims\r\n";
+  27          code char *level_1 = "bright001";
+  28          code char *LCD_lv1 = "\r\nscreen brightness brighter\r\n";
+  29          
+  30          int i = 0;
+  31          
+  32          //LCD variables
+  33          int LCD_light_level;
+  34          int LCD_run_level = 1000;
+  35          int run_level = 0;
+  36          int LCD_PWM_counter;
+  37          int LCD_run_counter;
+  38          bit LCD_print = 0; //1: move LCD ;0: unmove LCD
+  39          bit LCD_PWM = 0; //1: turn on CONTR; 0: turn off CONTR
+  40          bit dir = 0;
+  41          bit screen_switch = 1;
+  42          
+  43          //CGRAM variables
+  44          int smile[8] = {0x00, 0x0A, 0x0A, 0x00, 0x11, 0x0E, 0x00, 0x00};
+  45          int heart[8] = {0x00, 0x0A, 0x1F, 0x1F, 0x0E, 0x04, 0x00, 0x00};
+  46          
+  47          //main function
+  48          void main() {
+  49   1        init();
+  50   1        
+  51   1        //close LCD
+  52   1        P1 = 0xFF;
+  53   1        P2 = 0xFF;
+  54   1        
+C51 COMPILER V9.60.0.0   TEST1                                                             01/04/2022 17:38:48 PAGE 2   
+
+  55   1        //check UART msg
+  56   1        while(1) {
+  57   2          if (receive_full){
+  58   3            receive_full = 0;
+  59   3            
+  60   3            //start up LCD
+  61   3            if (check(start)) {
+  62   4              send_msg(LCD_start);
+  63   4              P1 = 0;
+  64   4              delay(100000);
+  65   4              init();
+  66   4              LCD_PWM = 1;
+  67   4              LCD_light_level = 2;
+  68   4              
+  69   4              create_self_def(0x40, smile);
+  70   4              create_self_def(0x48, heart);
+  71   4              print_create(0x80, 0x00);
+  72   4              print_create(0x8F, 0x01);
+  73   4              print_msg("                        E94086076");
+  74   4            }
+  75   3            //close LCD
+  76   3            else if (check(close)) {
+  77   4              send_msg(LCD_close);
+  78   4              LCD_print = 0;
+  79   4              LCD_PWM = 0;
+  80   4              P1 = 0xFF;
+  81   4              P2 = 0xFF;
+  82   4            }
+  83   3            //switch LCD PWM level
+  84   3            else if (check(level_0)) {
+  85   4              LCD_light_level--;
+  86   4              send_msg(LCD_lv0);
+  87   4            }
+  88   3            else if (check(level_1)) {
+  89   4              LCD_light_level++;
+  90   4              send_msg(LCD_lv1);
+  91   4            }
+  92   3          }
+  93   2        };
+  94   1      }
+  95          
+  96          //init
+  97          void init() {
+  98   1        //initial LCD
+  99   1        write(0x38, 0);
+ 100   1        write(0x0F, 0);
+ 101   1        write(0x06, 0);
+ 102   1        write(0x01, 0);
+ 103   1        write(0x80, 0);
+ 104   1        
+ 105   1        //init timer
+ 106   1        IE = 0x97;
+ 107   1        IP = 0x02;
+ 108   1        TMOD = 0x22;
+ 109   1        TCON = 0x50;
+ 110   1        
+ 111   1        //init UART
+ 112   1        SCON = 0x50;
+ 113   1        TH1 = 0xE6;
+ 114   1        TR1 = 1;
+ 115   1      }
+ 116          
+C51 COMPILER V9.60.0.0   TEST1                                                             01/04/2022 17:38:48 PAGE 3   
+
+ 117          //write to LCD
+ 118          void write(char cmd, int rs_value) {
+ 119   1        P2 = cmd;
+ 120   1        P1_6 = rs_value;
+ 121   1        P1_7 = 1;
+ 122   1        delay(1000);
+ 123   1        P1_7 = 0;
+ 124   1      }
+ 125          
+ 126          //LCD print
+ 127          void print_msg(char *msg) {
+ 128   1        for (;*msg != '\0'; msg++)
+ 129   1          write(*msg, 1);
+ 130   1      }
+ 131          
+ 132          //timer
+ 133          void timer0_interrupt(void) interrupt 1 {
+ 134   1        //let LCD move right continuously
+ 135   1        if (LCD_print == 1) {
+ 136   2          LCD_run_counter++;
+ 137   2          if (LCD_run_counter >= LCD_run_level) {
+ 138   3            dir ? write(0x1C, 0) : write(0x18, 0);
+ 139   3            LCD_run_counter = 0;
+ 140   3          }
+ 141   2        }
+ 142   1        
+ 143   1        //PWM let LCD light correctly
+ 144   1        if (LCD_PWM == 1) {
+ 145   2          P1_3 = 0;
+ 146   2          if (!LCD_PWM_counter) {
+ 147   3            P1_3 = 1;
+ 148   3            LCD_PWM_counter = LCD_light_level;
+ 149   3          }
+ 150   2          LCD_PWM_counter--;
+ 151   2        }
+ 152   1      }
+ 153          
+ 154          //UART_interrupt
+ 155          void UART_Isr(void) interrupt 4 {
+ 156   1        if(RI){
+ 157   2          RI = 0;
+ 158   2          rxbuf[index ++] = SBUF;
+ 159   2          index %= 9;
+ 160   2          if(!index)
+ 161   2            receive_full = 1;
+ 162   2        }
+ 163   1        else {
+ 164   2          TI = 0;
+ 165   2          transmit_flag = 1;
+ 166   2        }
+ 167   1      }
+ 168          
+ 169          //send msg back to computer
+ 170          void send_msg(char *c){
+ 171   1        for(; *c!='\0'; c++){
+ 172   2          while(!transmit_flag);
+ 173   2          transmit_flag = 0;
+ 174   2          SBUF = *c;
+ 175   2        }
+ 176   1      }
+ 177          
+ 178          //8051 check msg
+C51 COMPILER V9.60.0.0   TEST1                                                             01/04/2022 17:38:48 PAGE 4   
+
+ 179          int check(char *c){
+ 180   1        for(i=0; i<9; i++) {
+ 181   2          if(*(c + i) != *(rxbuf + i))
+ 182   2            return 0;
+ 183   2        }
+ 184   1        return 1;
+ 185   1      }
+ 186          
+ 187          //INT0
+ 188          void int_0(void) interrupt 0 {
+ 189   1        delay(20000);
+ 190   1        //stop moving screen
+ 191   1        LCD_print = 0;
+ 192   1        screen_switch ^= 1;
+ 193   1        screen_switch ? write(0x0F, 0) : write(0x08, 0);
+ 194   1        write(0x01, 0);
+ 195   1        print_msg("Best(4)                                 Worst(7)");
+ 196   1      }
+ 197          
+ 198          //INT1
+ 199          void int_1(void) interrupt 2 {
+ 200   1        delay(20000);
+ 201   1        if (run_level == 0) {
+ 202   2          LCD_print = 0;
+ 203   2          write(0x01, 0);
+ 204   2          print_msg("Thanks!");
+ 205   2          run_level ++;
+ 206   2        }
+ 207   1        else if (run_level == 1) {
+ 208   2          dir = 0;
+ 209   2          LCD_print = 1;
+ 210   2          LCD_run_level = 1000;
+ 211   2          run_level ++;
+ 212   2        }
+ 213   1        else {
+ 214   2          LCD_run_level = 500;
+ 215   2          run_level = 0;
+ 216   2        }
+ 217   1      }
+ 218          
+ 219          //create words
+ 220          void create_self_def(int address, int message[]) {
+ 221   1        int i;
+ 222   1        write(address, 0);
+ 223   1        for (i = 0; i < 8; i++)
+ 224   1          write(message[i], 1);
+ 225   1      }
+ 226          
+ 227          //print created words
+ 228          void print_create(int location, int msg_address) {
+ 229   1        write(location, 0); write(msg_address, 1);
+ 230   1      }
+ 231          
+ 232          //delay
+ 233          void delay(unsigned int t) {
+ 234   1        while(t--);
+ 235   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    967    ----
+   CONSTANT SIZE    =    236    ----
+C51 COMPILER V9.60.0.0   TEST1                                                             01/04/2022 17:38:48 PAGE 5   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     54      13
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      6    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

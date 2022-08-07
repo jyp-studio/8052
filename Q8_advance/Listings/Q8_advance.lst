@@ -1,0 +1,105 @@
+C51 COMPILER V9.60.0.0   Q8_ADVANCE                                                        11/30/2021 17:43:25 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE Q8_ADVANCE
+OBJECT MODULE PLACED IN .\Objects\Q8_advance.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Q8_advance.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\Q8_advance.lst) TABS(2) OBJECT(.\Objects\Q8_advance.obj)
+
+line level    source
+
+   1          #include<regx51.h>
+   2          
+   3          void init_uart(); 
+   4          char recivevalue;
+   5          char correct[] = "correct";
+   6          char wrong[] = "wrong";
+   7          int counter = 0;
+   8          int i = 0;
+   9          int k = 0;
+  10          
+  11          void main( ){
+  12   1        init_uart();
+  13   1        while(1);
+  14   1      }
+  15          
+  16          void init_uart(void) {
+  17   1        SCON=0x50;
+  18   1        TMOD=0x20;
+  19   1        TH1=0xe6;
+  20   1        TR1=1;
+  21   1        IE=0x90;
+  22   1      }
+  23          
+  24          void UART_Isr(void) interrupt 4 {
+  25   1        while(RI == 0);
+  26   1        
+  27   1        RI=0;
+  28   1        recivevalue=SBUF;
+  29   1        P2 = recivevalue;
+  30   1        
+  31   1        if(recivevalue == 'E') {
+  32   2          counter ++;
+  33   2        }
+  34   1        if(recivevalue == '9' && counter == 1) {
+  35   2          counter ++;
+  36   2        }
+  37   1        if(recivevalue == '4' && counter == 2) {
+  38   2          counter ++;
+  39   2        }
+  40   1        if(recivevalue == '0' && counter == 3) {
+  41   2          counter ++;
+  42   2        }
+  43   1        if(recivevalue == '8' && counter == 4) {
+  44   2          counter ++;
+  45   2        }
+  46   1        if(recivevalue == '6' && counter == 5) {
+  47   2          counter ++;
+  48   2        }
+  49   1        if(recivevalue == '0' && counter == 6) {
+  50   2          counter ++;
+  51   2        }
+  52   1        if(recivevalue == '7' && counter == 7) {
+  53   2          counter ++;
+  54   2        }
+C51 COMPILER V9.60.0.0   Q8_ADVANCE                                                        11/30/2021 17:43:25 PAGE 2   
+
+  55   1        if(recivevalue == '6' && counter == 8) {
+  56   2          counter ++;
+  57   2        }
+  58   1        if(recivevalue == 0x0D) {
+  59   2          SBUF = 0x0A;
+  60   2          while(TI==0);
+  61   2          TI=0;
+  62   2          
+  63   2          if (counter == 9) {
+  64   3            for(i = 0; i < sizeof(correct); i++) {
+  65   4              SBUF=correct[i];
+  66   4              while(TI==0);
+  67   4              TI=0;
+  68   4            }
+  69   3          }
+  70   2          else {
+  71   3            for(k = 0; k < sizeof(wrong); k++) {
+  72   4              SBUF=wrong[k];
+  73   4              while(TI==0);
+  74   4              TI=0;
+  75   4            }
+  76   3          }
+  77   2          counter = 0;
+  78   2        }
+  79   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    337    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     21    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

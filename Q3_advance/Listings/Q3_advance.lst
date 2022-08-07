@@ -1,0 +1,80 @@
+A51 MACRO ASSEMBLER  Q3_ADVANCE                                                           11/06/2021 13:48:17 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Q3_advance.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Q3_advance.A51 SET(SMALL) DEBUG PRINT(.\Listings\Q3_advance.lst) OBJECT
+                      (.\Objects\Q3_advance.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+                       5     
+                       6     
+                       7     
+                       8     
+                       9     
+                      10     
+                      11     
+0000                  12                             ORG 0                           ; start from 0000H
+0000 90002F           13                             MOV DPTR, #TABLE        ; DPTR point to TABLE
+0003 7800             14     START:          MOV R0, #0                      ; initialize typed signal
+0005 7903             15                             MOV R1, #3                      ; set 3 row
+0007 7AF7             16                             MOV R2, #11110111B      ; set first row
+0009 EA               17     SCAN:           MOV A, R2                       ; move R2 to A
+000A F5A0             18                             MOV P2, A                       ; input scanned signal
+000C 30A70F           19                             JNB P2.7, KEYIN         ; scan column 1
+000F 08               20                             INC R0                          ; add #01 into R0
+0010 30A60B           21                             JNB P2.6, KEYIN         ; scan column 2
+0013 08               22                             INC R0                          ; add #01 into R0
+0014 30A507           23                             JNB P2.5, KEYIN         ; scan column 3
+0017 08               24                             INC R0                          ; add #01 into R0
+0018 03               25                             RR A                            ; next row
+0019 FA               26                             MOV R2, A                       ; move A to R2
+001A D9ED             27                             DJNZ R1, SCAN           ; scan 3 rows
+001C 80E5             28                             SJMP START                      ; jump to scan keypad again
+001E 1126             29     KEYIN:          CALL DEBOUNCE           ; call debounce function
+0020 E8               30                             MOV A, R0                       ; get typed signal
+0021 93               31                             MOVC A, @A+DPTR         ; according A, get signal from TABLE
+0022 F590             32                             MOV P1, A                       ; output displayed signal
+0024 80DD             33                             SJMP START                      ; jump to scan keypad again
+0026 7C32             34     DEBOUNCE:       MOV R4, #50             ; move 50 times into R4
+0028 7BFA             35     DE_500_us:      MOV R3, #250            ; move 250 times into R3
+002A DBFE             36                             DJNZ R3, $                      ; jump to itself R3 times
+002C DCFA             37                             DJNZ R4, DE_500_us      ; delay 25ms
+002E 22               38                             RET                             ; return to main code
+002F 9F               39     TABLE:          DB 10011111B            ; display 1
+0030 25               40                             DB 00100101B            ; display 2
+0031 0D               41                             DB 00001101B            ; display 3
+0032 99               42                             DB 10011001B            ; display 4
+0033 49               43                             DB 01001001B            ; display 5
+0034 41               44                             DB 01000001B            ; display 6
+0035 1B               45                             DB 00011011B            ; display 7
+0036 01               46                             DB 00000001B            ; display 8
+0037 09               47                             DB 00001001B            ; display 9
+                      48                             END
+A51 MACRO ASSEMBLER  Q3_ADVANCE                                                           11/06/2021 13:48:17 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DEBOUNCE . . . . .  C ADDR   0026H   A   
+DE_500_US. . . . .  C ADDR   0028H   A   
+KEYIN. . . . . . .  C ADDR   001EH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SCAN . . . . . . .  C ADDR   0009H   A   
+START. . . . . . .  C ADDR   0003H   A   
+TABLE. . . . . . .  C ADDR   002FH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

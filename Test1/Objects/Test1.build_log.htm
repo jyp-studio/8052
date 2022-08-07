@@ -1,0 +1,42 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: £gVision V5.27.1.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: JY P, NCKU, LIC=----
+ 
+Tool Versions:
+Toolchain:       PK51 Prof. Develpers Kit  Version: 9.60.0.0
+Toolchain Path:  C:\Keil_v5\C51\BIN
+C Compiler:      C51.exe V9.60.0.0
+Assembler:       A51.exe V8.2.7.0
+Linker/Locator:  BL51.exe V6.22.2.0
+Library Manager: LIB51.exe V4.30.1.0
+Hex Converter:   OH51.exe V2.7.0.0
+CPU DLL:         S8051.DLL V3.122.0.0
+Dialog DLL:      DP51.DLL V2.67.0.0 
+<h2>Project:</h2>
+D:\8052\Test1\Test1.uvproj
+Project File Date:  12/30/2021
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling Test1.c...
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_PRINT_MSG?TEST1
+    CALLER1: ?C_C51STARTUP
+    CALLER2: ?PR?INT_0?TEST1
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_PRINT_MSG?TEST1
+    CALLER1: ?PR?INT_0?TEST1
+    CALLER2: ?PR?INT_1?TEST1
+Program Size: data=74.6 xdata=0 code=1582
+creating hex file from ".\Objects\Test1"...
+".\Objects\Test1" - 0 Error(s), 2 Warning(s).
+Build Time Elapsed:  00:00:00
+</pre>
+</body>
+</html>

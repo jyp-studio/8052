@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Q9_advance.obj" 
+TO ".\Objects\Q9_advance" 
+PRINT(".\Listings\Q9_advance.m51") RAMSIZE(256) 

@@ -1,0 +1,201 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    11/30/2021  17:43:25  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\Q8_advance.obj TO .\Objects\Q8_advance PRINT (.\Listings\Q8
+>> _advance.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\Q8_advance.obj (Q8_ADVANCE)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Q8_advance (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0015H     UNIT         ?DT?Q8_ADVANCE
+            IDATA   001DH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
+            CODE    0800H     013DH     UNIT         ?PR?UART_ISR?Q8_ADVANCE
+            CODE    093DH     008CH     UNIT         ?C_C51STARTUP
+            CODE    09C9H     001FH     UNIT         ?C_INITSEG
+            CODE    09E8H     000FH     UNIT         ?PR?INIT_UART?Q8_ADVANCE
+            CODE    09F7H     0005H     UNIT         ?PR?MAIN?Q8_ADVANCE
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Q8_advance (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?Q8_ADVANCE
+  +--> ?C_INITSEG
+
+?PR?MAIN?Q8_ADVANCE
+  +--> ?PR?INIT_UART?Q8_ADVANCE
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Q8_advance (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/30/2021  17:43:25  PAGE 2
+
+
+  -------         MODULE        ?C_STARTUP
+  C:093DH         SEGMENT       ?C_C51STARTUP
+  I:001DH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0940H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:093DH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:093DH         LINE#         133
+  C:093FH         LINE#         134
+  C:0940H         LINE#         135
+  C:0941H         LINE#         136
+  C:0943H         LINE#         185
+  C:0946H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        Q8_ADVANCE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  D:0008H         PUBLIC        counter
+  D:00A8H         PUBLIC        IE
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  D:000AH         PUBLIC        recivevalue
+  C:09F7H         PUBLIC        main
+  D:000BH         PUBLIC        wrong
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  C:0800H         PUBLIC        UART_Isr
+  D:008DH         PUBLIC        TH1
+  C:09E8H         PUBLIC        init_uart
+  B:0088H.6       PUBLIC        TR1
+  D:0011H         PUBLIC        i
+  D:0013H         PUBLIC        k
+  D:0015H         PUBLIC        correct
+  -------         PROC          MAIN
+  C:09F7H         LINE#         11
+  C:09F7H         LINE#         12
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/30/2021  17:43:25  PAGE 3
+
+
+  C:09FAH         LINE#         13
+  -------         ENDPROC       MAIN
+  -------         PROC          INIT_UART
+  C:09E8H         LINE#         16
+  C:09E8H         LINE#         17
+  C:09EBH         LINE#         18
+  C:09EEH         LINE#         19
+  C:09F1H         LINE#         20
+  C:09F3H         LINE#         21
+  C:09F6H         LINE#         22
+  -------         ENDPROC       INIT_UART
+  -------         PROC          UART_ISR
+  C:0800H         LINE#         24
+  C:080DH         LINE#         25
+  C:0810H         LINE#         27
+  C:0812H         LINE#         28
+  C:0815H         LINE#         29
+  C:0818H         LINE#         31
+  C:081DH         LINE#         32
+  C:0825H         LINE#         33
+  C:0825H         LINE#         34
+  C:0832H         LINE#         35
+  C:083AH         LINE#         36
+  C:083AH         LINE#         37
+  C:0847H         LINE#         38
+  C:084FH         LINE#         39
+  C:084FH         LINE#         40
+  C:085CH         LINE#         41
+  C:0864H         LINE#         42
+  C:0864H         LINE#         43
+  C:0871H         LINE#         44
+  C:0879H         LINE#         45
+  C:0879H         LINE#         46
+  C:0886H         LINE#         47
+  C:088EH         LINE#         48
+  C:088EH         LINE#         49
+  C:089BH         LINE#         50
+  C:08A3H         LINE#         51
+  C:08A3H         LINE#         52
+  C:08B0H         LINE#         53
+  C:08B8H         LINE#         54
+  C:08B8H         LINE#         55
+  C:08C5H         LINE#         56
+  C:08CDH         LINE#         57
+  C:08CDH         LINE#         58
+  C:08DAH         LINE#         59
+  C:08DDH         LINE#         60
+  C:08E0H         LINE#         61
+  C:08E2H         LINE#         63
+  C:08EAH         LINE#         64
+  C:08EEH         LINE#         65
+  C:08F6H         LINE#         66
+  C:08F9H         LINE#         67
+  C:08FBH         LINE#         68
+  C:090BH         LINE#         69
+  C:090BH         LINE#         70
+  C:090BH         LINE#         71
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/30/2021  17:43:25  PAGE 4
+
+
+  C:0911H         LINE#         72
+  C:0919H         LINE#         73
+  C:091CH         LINE#         74
+  C:091EH         LINE#         75
+  C:092CH         LINE#         76
+  C:092CH         LINE#         77
+  C:0932H         LINE#         78
+  C:0932H         LINE#         79
+  -------         ENDPROC       UART_ISR
+  -------         ENDMOD        Q8_ADVANCE
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0181H BYTE (18%) *
+******************************************************************************
+
+Program Size: data=30.0 xdata=0 code=514
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

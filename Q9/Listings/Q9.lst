@@ -1,0 +1,34 @@
+C51 COMPILER V9.60.0.0   Q9                                                                12/07/2021 10:49:43 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE Q9
+OBJECT MODULE PLACED IN .\Objects\Q9.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Q9.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Q9.lst
+                    -) TABS(2) OBJECT(.\Objects\Q9.obj)
+
+line level    source
+
+   1          #include <regx51.h>
+   2          
+   3          void main( ) {
+   4   1        while(1) {
+   5   2          if(P1 >256 / 2) //if P1 greater than 256/2
+   6   2            P2 = 0; //LED on
+   7   2          else
+   8   2            P2 = 255; //LED off
+   9   2        }
+  10   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     22    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

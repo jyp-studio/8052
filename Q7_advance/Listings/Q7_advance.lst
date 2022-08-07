@@ -1,0 +1,54 @@
+C51 COMPILER V9.60.0.0   Q7_ADVANCE                                                        11/23/2021 17:51:38 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE Q7_ADVANCE
+OBJECT MODULE PLACED IN .\Objects\Q7_advance.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Q7_advance.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\Q7_advance.lst) TABS(2) OBJECT(.\Objects\Q7_advance.obj)
+
+line level    source
+
+   1          #include <regx51.h> // include header file for 8051
+   2          #define TH0_init 0x37
+   3          #define TL0_init 0x05
+   4          #define Timer0_int_exe_time 10 //the parameter can be changed
+   5          
+   6          int counter = 0;
+   7          
+   8          void main( )
+   9          {
+  10   1        P3 = 0x00;
+  11   1        TMOD = 0x09; //set timer0 to mode 1(16 bits timer)
+  12   1        IP = 0x02;
+  13   1        IE = 0x82; //enable timer1 $ INT1 interrupt
+  14   1        P2 = 0xfe; //set P2.0 to low (light)
+  15   1        TL0 = TL0_init; TH0 = TH0_init; //set TH1 & TL1
+  16   1        TCON = 0x10; //enable timer0
+  17   1        while(1);
+  18   1      }
+  19          
+  20          void timer0_interrupt(void) interrupt 1 // ‘interrupt 1’ is int vector of INT0
+  21          {
+  22   1        counter ++;
+  23   1        if (counter == Timer0_int_exe_time) //250clock cycle * 2000 = 0.5 second
+  24   1        {
+  25   2          P2 = (P2 << 1) | (P2 >> 7);
+  26   2          counter = 0;
+  27   2          TL0 = TL0_init; 
+  28   2          TH0 = TH0_init; //set TH0 & TL0
+  29   2        }
+  30   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     84    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
